@@ -8,6 +8,7 @@
 import { ref } from 'vue';
 
 const selection = ref(["rock", "paper", "scissors"])
+let playerSelection = ref(null)
 
 const getComputerChoice = () =>{
   const randomIndex = Math.floor(Math.random() * selection.value.length);
@@ -33,29 +34,35 @@ const playRound = (playerSelection, computerSelection) => {
     else if (computerSelection == "scissors" && playerSelection == "rock"){
       console.log(`You lose! ${computerSelection} beats ${playerSelection}`) 
     }
-    else{
+    else if (computerSelection == playerSelection){
       console.log(`Draw!`)
     }
   }
 
 
-// const validateUserInput= () => {
-//   let validInput = false
+const validateUserInput= () => {
+  let playerInput = null
 
-//   while(validInput){
-//     let playerSelection = prompt("Rock, Paper, Scissors?").toLowerCase();
+  while(true){
+    playerInput = prompt("Rock, Paper, Scissors?").toLowerCase();
     
-//   }
-// }
+    if(playerInput != "rock" && playerInput != "paper" && playerInput != "scissors"){
+      alert("Incorrect input. Enter either ['Rock', 'Paper' or 'Scissors']")
+    }
+    else{
+      return playerInput
+    }
+  }
+  // console.log("Dojo")
+}
 
-
-let rounds = 5 
+let rounds = 2
 while(rounds != 0){
   let computerSelection = getComputerChoice();
-  // let playerSelection = prompt("Rock, Paper, Scissors?").toLowerCase();
-  let playerSelection = 'rock'
-  console.log(computerSelection)
-  playRound(playerSelection, computerSelection);
-  --rounds
+  console.log("Computer : " + computerSelection)
+  playerSelection.value = validateUserInput()
+  console.log("playerSelection : " + playerSelection.value)
+  playRound(playerSelection.value, computerSelection);
+  rounds = rounds - 1
 }
 </script>
