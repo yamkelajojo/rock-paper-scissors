@@ -36,19 +36,21 @@ console.log("Fight!");
 let robot = ref({
   id: "twemoji:robot",
   selection: "twemoji:raised-fist",
-  points: "0",
+  points: 0,
 });
-const player = ref({
+let player = ref({
   id: "twemoji:adult",
   selection: "twemoji:raised-fist",
-  points: "0",
+  points: 0,
 });
 
 let players = computed(() => {
-  console.log("computed ROBOT", robot.value);
-  console.log("computed PLAYER", player.value);
+  console.log("computed ROBOT: ", robot.value);
+  console.log("computed PLAYER: ", player.value);
   return [robot, player];
 });
+
+// let players = ref([robot, player]);
 
 const selection = ref([
   "twemoji:raised-fist",
@@ -67,73 +69,78 @@ const getComputerChoice = () => {
 
 const playRound = (playerSelection, robotSelection) => {
   if (
-    playerSelection == "twemoji:raised-fist" &&
-    robotSelection == "twemoji:victory-hand"
+    playerSelection === "twemoji:raised-fist" &&
+    robotSelection === "twemoji:victory-hand"
   ) {
-    player.value.selection == playerSelection;
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    player.value.points == Number(player.value.points) + 1;
+    console.log(Number(player.value.points) + 1);
+    player.value.points = Number(player.value.points) + 1;
     console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
-    console.log(
-      `You win! ${player.value.selection} beats ${robot.value.selection}`
-    );
-  } else if (
-    player.value.selection == "twemoji:leftwards-hand" &&
-    robot.value.selection == "twemoji:raised-fist"
-  ) {
-    player.value.selection == playerSelection;
-    robot.value.selection = robotSelection;
-    player.value.points == player.value.points + 1;
-    console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
+    console.log(player.value);
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
   } else if (
-    player.value.selection == "twemoji:victory-hand" &&
-    robot.value.selection == "twemoji:raised-fist"
+    player.value.selection === "twemoji:leftwards-hand" &&
+    robot.value.selection === "twemoji:raised-fist"
   ) {
-    player.value.selection == playerSelection;
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    player.value.points == player.value.points + 1;
+    player.value.points = player.value.points + 1;
     console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
+    console.log(player.value);
+
+    console.log(
+      `You win! ${player.value.selection} beats ${robot.value.selection}`
+    );
+  } else if (
+    player.value.selection === "twemoji:victory-hand" &&
+    robot.value.selection === "twemoji:raised-fist"
+  ) {
+    player.value.selection = playerSelection;
+    robot.value.selection = robotSelection;
+    player.value.points = player.value.points + 1;
+    console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
+    console.log(player.value);
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
   }
   if (
-    robot.value.selection == "twemoji:raised-fist" &&
-    player.value.selection == "twemoji:victory-hand"
+    robot.value.selection === "twemoji:raised-fist" &&
+    player.value.selection === "twemoji:victory-hand"
   ) {
-    player.value.selection == playerSelection;
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    robot.value.points == robot.value.points + 1;
+    robot.value.points = robot.value.points + 1;
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
   } else if (
-    robot.value.selection == "twemoji:leftwards-hand" &&
-    player.value.selection == "twemoji:raised-fist"
+    robot.value.selection === "twemoji:leftwards-hand" &&
+    player.value.selection === "twemoji:raised-fist"
   ) {
-    player.value.selection == playerSelection;
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    robot.value.points == robot.value.points + 1;
+    robot.value.points = robot.value.points + 1;
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
   } else if (
-    robot.value.selection == "twemoji:victory-hand" &&
-    player.value.selection == "twemoji:raised-fist"
+    robot.value.selection === "twemoji:victory-hand" &&
+    player.value.selection === "twemoji:raised-fist"
   ) {
-    player.value.selection == playerSelection;
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    robot.value.points == robot.value.points + 1;
+    robot.value.points = robot.value.points + 1;
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
-  } else if (robot.value.selection == player.value.selection) {
-    player.value.selection == playerSelection;
+  } else if (robot.value.selection === player.value.selection) {
+    player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     console.log(`Draw!`);
   }
@@ -161,9 +168,9 @@ const validateUserInput = () => {
 const chooseArtilary = (chosenArtilery) => {
   computerSelection.value = getComputerChoice();
   console.log(
-    "Computer[in cooseArtilary Function]: " + computerSelection.value
+    "Computer[in cooseArtilary Function] chice: " + computerSelection.value
   );
-  console.log("Chosen Artilery is: " + chosenArtilery);
+  console.log("you selected Chosen Artilery: " + chosenArtilery);
   playRound(chosenArtilery, computerSelection.value);
   console.log(players.value);
 };
