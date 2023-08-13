@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div id="ring">
-      <h1 id="rounds">Round {{ rounds }}</h1>
+      <h1 id="rounds">Rock Paper Scissors</h1>
       <div id="fight">
         <div
           v-for="fighter in players"
@@ -24,6 +24,9 @@
         >
           <Icon :name="option" size="3rem"></Icon>
         </button>
+      </div>
+      <div v-if="endgame" id="endgame">
+        <p>{{ endgameText }}</p>
       </div>
     </div>
   </div>
@@ -50,17 +53,16 @@ let players = computed(() => {
   return [robot, player];
 });
 
-// let players = ref([robot, player]);
-
 const selection = ref([
   "twemoji:raised-fist",
   "twemoji:leftwards-hand",
   "twemoji:victory-hand",
 ]);
 
-let playerSelection = ref(null);
+let endgame = ref(true);
+let endgameText = ref("NO WINNER YET");
 let computerSelection = ref(null);
-let rounds = ref(5);
+// let rounds = ref(5);
 
 const getComputerChoice = () => {
   const randomIndex = Math.floor(Math.random() * selection.value.length);
@@ -74,14 +76,13 @@ const playRound = (playerSelection, robotSelection) => {
   ) {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
-    console.log(Number(player.value.points) + 1);
     player.value.points = Number(player.value.points) + 1;
-    console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
-    console.log(player.value);
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
+    gameFinisher();
+    return;
   } else if (
     player.value.selection === "twemoji:leftwards-hand" &&
     robot.value.selection === "twemoji:raised-fist"
@@ -89,12 +90,12 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     player.value.points = player.value.points + 1;
-    console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
-    console.log(player.value);
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
+    gameFinisher();
+    return;
   } else if (
     player.value.selection === "twemoji:victory-hand" &&
     robot.value.selection === "twemoji:raised-fist"
@@ -102,12 +103,12 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     player.value.points = player.value.points + 1;
-    console.log("POINTS kumele iukba iAdd'ille apha: " + player.value.points);
-    console.log(player.value);
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
+    gameFinisher();
+    return;
   }
   if (
     robot.value.selection === "twemoji:raised-fist" &&
@@ -119,6 +120,8 @@ const playRound = (playerSelection, robotSelection) => {
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
+    gameFinisher();
+    return;
   } else if (
     robot.value.selection === "twemoji:leftwards-hand" &&
     player.value.selection === "twemoji:raised-fist"
@@ -129,6 +132,8 @@ const playRound = (playerSelection, robotSelection) => {
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
+    gameFinisher();
+    return;
   } else if (
     robot.value.selection === "twemoji:victory-hand" &&
     player.value.selection === "twemoji:raised-fist"
@@ -143,17 +148,8 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     console.log(`Draw!`);
-  }
-  if (rounds.value > 0) {
-    rounds.value -= 1;
-  } else {
-    if (player.value.points > robot.value.points) {
-      console.log("YOU HAVE WON THE MATCH");
-    } else if (player.value.points < robot.value.points) {
-      console.log("YOU HAVE LOST THE MATCH");
-    } else {
-      console.log("THE MATCH IS A DRAW");
-    }
+    gameFinisher();
+    return;
   }
 };
 
@@ -173,6 +169,16 @@ const validateUserInput = () => {
     } else {
       return playerInput;
     }
+  }
+};
+
+const gameFinisher = () => {
+  if (player.value.points === 3) {
+    endgame = true;
+    endgameText.value = "YOU WON!";
+  } else if (robot.value.points === 3) {
+    endgame = true;
+    endgameText.value = "YOU LOST.\nBetter luck next time";
   }
 };
 
@@ -235,9 +241,6 @@ const chooseArtilary = (chosenArtilery) => {
 
 .fighters > * {
   border: solid 2px white;
-}
-
-#fighterHeads {
 }
 
 #rounds {
