@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div id="ring">
-      <h1>Round {{ rounds }}</h1>
+      <h1 id="rounds">Round {{ rounds }}</h1>
       <div id="fight">
         <div
           v-for="fighter in players"
@@ -11,7 +11,7 @@
         >
           <div id="fighterHeads">
             <Icon :name="fighter.value.id" size="4rem"></Icon>
-            <h4>{{ fighter.value }}</h4>
+            <p id="points">Points: {{ fighter.value.points }}</p>
           </div>
           <Icon :name="fighter.value.selection" size="10rem"></Icon>
         </div>
@@ -45,8 +45,8 @@ let player = ref({
 });
 
 let players = computed(() => {
-  console.log("computed ROBOT: ", robot.value);
-  console.log("computed PLAYER: ", player.value);
+  console.log("COMPUTED ROBOT: ", robot.value);
+  console.log("COMPUTED PLAYER: ", player.value);
   return [robot, player];
 });
 
@@ -60,7 +60,7 @@ const selection = ref([
 
 let playerSelection = ref(null);
 let computerSelection = ref(null);
-let rounds = ref(2);
+let rounds = ref(5);
 
 const getComputerChoice = () => {
   const randomIndex = Math.floor(Math.random() * selection.value.length);
@@ -144,6 +144,17 @@ const playRound = (playerSelection, robotSelection) => {
     robot.value.selection = robotSelection;
     console.log(`Draw!`);
   }
+  if (rounds.value > 0) {
+    rounds.value -= 1;
+  } else {
+    if (player.value.points > robot.value.points) {
+      console.log("YOU HAVE WON THE MATCH");
+    } else if (player.value.points < robot.value.points) {
+      console.log("YOU HAVE LOST THE MATCH");
+    } else {
+      console.log("THE MATCH IS A DRAW");
+    }
+  }
 };
 
 const validateUserInput = () => {
@@ -174,22 +185,13 @@ const chooseArtilary = (chosenArtilery) => {
   playRound(chosenArtilery, computerSelection.value);
   console.log(players.value);
 };
-
-// while (rounds.value != 0) {
-//   computerSelection.value = getComputerChoice();
-//   console.log("Computer : " + computerSelection.value);
-//   playerSelection.value = validateUserInput();
-//   console.log("playerSelection : " + playerSelection.value);
-//   playRound(playerSelection.value, computerSelection.value);
-//   rounds.value = rounds.value - 1;
-// }
 </script>
 
 <style>
 .body {
   /* border: 1px solid red; */
   height: 100vh;
-  /* background-image: url("assets/images/51ibDFf58kL._AC_SL1000_.jpg"); */
+  background-image: url("assets/images/51ibDFf58kL._AC_SL1000_.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -201,32 +203,50 @@ const chooseArtilary = (chosenArtilery) => {
 }
 
 #ring {
+  width: 90%;
+  height: 90%;
   border: 1px solid red;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
   /* padding: 5%; */
-  background-color: rgb(252, 243, 231);
+  /* background-color: rgb(252, 243, 231); */
 }
 
 #fight {
-  height: 350px;
-  width: 650px;
-  background-color: rgb(166, 183, 190);
+  /* height: 350px;
+  width: 650px; */
   display: flex;
   justify-content: space-around;
   align-items: center;
   border: 1px solid teal;
-  padding: 3%;
+  /* padding: 2%; */
   /* gap: 50%; */
 }
 
 .fighters {
   display: flex;
-  border: 1px solid red;
+  border: 1px solid rgb(0, 102, 255);
   align-items: center;
   flex-direction: column;
   gap: 2rem;
+}
+
+.fighters > * {
+  border: solid 2px white;
+}
+
+#fighterHeads {
+}
+
+#rounds {
+  font-family: "GameSlash";
+  font-size: 2.5rem;
+}
+
+#points {
+  font-family: "Digital";
+  /* font-size: 1.5rem; */
 }
 </style>
