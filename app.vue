@@ -78,6 +78,8 @@ const playRound = (playerSelection, robotSelection) => {
     robot.value.selection = robotSelection;
     player.value.points = Number(player.value.points) + 1;
 
+    endgameText.value = `You win! ${player.value.selection} beats ${robot.value.selection}`;
+
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
@@ -90,6 +92,8 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     player.value.points = player.value.points + 1;
+
+    endgameText.value = `You win! ${player.value.selection} beats ${robot.value.selection}`;
 
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
@@ -104,6 +108,7 @@ const playRound = (playerSelection, robotSelection) => {
     robot.value.selection = robotSelection;
     player.value.points = player.value.points + 1;
 
+    endgameText.value = `You win! ${player.value.selection} beats ${robot.value.selection}`;
     console.log(
       `You win! ${player.value.selection} beats ${robot.value.selection}`
     );
@@ -117,6 +122,9 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     robot.value.points = robot.value.points + 1;
+
+    endgameText.value = `You lose! ${robot.value.selection} beats ${player.value.selection}`;
+
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
@@ -129,6 +137,9 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     robot.value.points = robot.value.points + 1;
+
+    endgameText.value = `You lose! ${robot.value.selection} beats ${player.value.selection}`;
+
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
@@ -141,6 +152,9 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     robot.value.points = robot.value.points + 1;
+
+    endgameText.value = `You lose! ${robot.value.selection} beats ${player.value.selection}`;
+
     console.log(
       `You lose! ${robot.value.selection} beats ${player.value.selection}`
     );
@@ -148,6 +162,7 @@ const playRound = (playerSelection, robotSelection) => {
     player.value.selection = playerSelection;
     robot.value.selection = robotSelection;
     console.log(`Draw!`);
+    endgameText.value = `Draw!`;
     gameFinisher();
     return;
   }
